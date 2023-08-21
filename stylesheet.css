@@ -1,0 +1,21 @@
+body{
+    background-image: url(./bgg.jpg);
+    color: rgb(109, 114, 125);  
+}
+#dtime{
+    font-size: 100px;
+}
+.buttons{
+    justify-content: center;
+    cursor: pointer;
+}
+
+img {
+    padding: 10px;
+    width: 70px;
+    height: 70px; 
+}
+
+#lap{
+    font-size: 40px;
+}

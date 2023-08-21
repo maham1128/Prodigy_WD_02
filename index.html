@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOP-WATCH</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+<body>
+    <section class="container text-center pt-5">
+        <div class="stopwatch pt-5">
+            <h1 id="dtime">00:00:00:00</h1>
+            <div class="buttons">
+                <img src="./image5.png" onclick="Stop()">
+                <img src="./play-button.png" onclick="Start()">
+                <img src="./redo.png" onclick="redo()">
+                <br>
+                <a class="btn btn-danger mt-3" onclick="lap()">LAP</a>
+                <div id="lap"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+        let displayTime = document.getElementById("dtime");
+        let timer = null;
+
+        function stopwatch() {
+            milliseconds += 10;
+            if (milliseconds == 1000) {
+                milliseconds = 0;
+                seconds++;
+                if (seconds == 60) {
+                    seconds = 0;
+                    minutes++;
+                    if (minutes == 60) {
+                        minutes = 0;
+                        hours++;
+                    }
+                }
+            }
+
+            let h = hours < 10 ? "0" + hours : hours;
+            let m = minutes < 10 ? "0" + minutes : minutes;
+            let s = seconds < 10 ? "0" + seconds : seconds;
+            let ms = milliseconds < 10 ? "00" + milliseconds : milliseconds;
+            displayTime.innerHTML = h + ":" + m + ":" + s + ":" + ms;
+        }
+        function Start() {
+            if (timer !== null) {
+                clearInterval(timer);
+            }
+            timer = setInterval(stopwatch, 10);
+        }
+
+        function Stop() {
+            clearInterval(timer);
+        }
+
+        function redo() {
+            clearInterval(timer);
+            [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
+            displayTime.innerHTML = "00:00:00:00";
+            document.getElementById("lap").innerHTML = "";
+        }
+
+        let lapCount = 1;
+        function lap() {
+            let lapTime = [milliseconds, seconds, minutes, hours];
+            let lapItem = document.createElement("div");
+            lapItem.textContent = "Lap " + lapCount + ": "  + lapTime[3] + "h " + lapTime[2] + "m " + lapTime[1] + "s " + lapTime[0] + "ms ";
+            lapCount++;
+            document.getElementById("lap").appendChild(lapItem);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+</body>
+</html>
